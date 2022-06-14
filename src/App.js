@@ -1,5 +1,5 @@
-import react from "react";
 import { useState, useEffect } from "react";
+import CardList from "./components/card-list/card-list.component";
 import "./App.css";
 
 function App() {
@@ -28,10 +28,9 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Monsters</h1>
       <input type="search" onChange={onSearchChange} />
-      {filteredMonsters.map((monster) => {
-        return <h1 key={monster.id}>{monster.name}</h1>;
-      })}
+      <CardList monsters={filteredMonsters}/>
     </div>
   );
 }
