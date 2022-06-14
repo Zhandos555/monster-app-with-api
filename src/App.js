@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import react from "react";
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [monsters, setMonsters] = useState([]);
+  const [searchField, setsearchField] = useState("");
+
+  console.log(monsters);
+  console.log(searchField);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users").then((response) =>
+      response.json().then((users) => {
+        setMonsters(users);
+      })
+    );
+  }, []);
+
+  const onSearchChange = (event) => {
+    const searchString = event.target.value.toLowerCase();
+    setsearchField(searchString);
+  };
+
+  const filteredMonsters = monsters.filter((monster) => {
+    return monster.name.toLowerCase().includes(searchField);
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="search" onChange={onSearchChange} />
+      {filteredMonsters.map((monster) => {
+        return <h1 key={monster.id}>{monster.name}</h1>;
+      })}
     </div>
   );
 }
